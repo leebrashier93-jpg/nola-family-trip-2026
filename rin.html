@@ -815,6 +815,8 @@ body[data-member="nana"] #overnightPacking { display:none !important; }
 
 .guide-link-box {margin:16px 0;padding:16px;border-radius:14px;background:var(--card-bg);border:1px solid var(--accent)} .guide-link-box label {display:block;margin-top:10px} #myGuideLink {width:100%;min-width:0;box-sizing:border-box;padding:10px;font:inherit;background:#fff;color:#222;border:1px solid #882948;border-radius:8px} #copyGuideLink, #shareGuidePage {background:#882948;color:#fff;padding:12px;font:inherit;font-weight:bold;border-radius:8px} .guide-link-box p {font-size:.85rem}
 body[data-guide] .tabs {top:8px} body[data-guide] {padding-top:16px}
+
+body:not([data-member="austin"]) [data-tab="vault"], body:not([data-member="austin"]) #vault { display:none !important; }
 </style>
 </head>
 <body data-member="momma" data-guide="rin">
@@ -853,8 +855,8 @@ body[data-guide] .tabs {top:8px} body[data-guide] {padding-top:16px}
 <figcaption><span>Moonlit in New Orleans</span><small>A little magic before the adventure</small></figcaption>
 </figure>
 
-<section class="guide-link-box" aria-label="Share this guide"><button type="button" id="shareGuidePage">Share This Guide</button><button type="button" id="copyGuideLink">Copy My Guide Link</button><label for="myGuideLink">Your public guide link</label><input id="myGuideLink" readonly type="text" spellcheck="false"><p id="guideLinkStatus" role="status" aria-live="polite"></p><p>Sharing sends this public guide page address, not ticket contents. The separate vault requires your approved sign-in.</p></section><header id="guideHeader">
-<p style="font-size:.75rem">Public family guide · Share this public guide or attraction links. Private tickets stay in the separate secure vault.</p>
+<section class="guide-link-box" aria-label="Share this guide"><button type="button" id="shareGuidePage">Share This Guide</button><button type="button" id="copyGuideLink">Copy My Guide Link</button><label for="myGuideLink">Your public guide link</label><input id="myGuideLink" readonly type="text" spellcheck="false"><p id="guideLinkStatus" role="status" aria-live="polite"></p><p>Sharing sends this public guide page address.</p></section><header id="guideHeader">
+<p style="font-size:.75rem">Public family guide · Share this public guide or attraction links. </p>
     <h1 id="headerTitle">🎃 NOLA Family Adventure</h1>
     <p>Saturday, October 24, 2026</p>
     <span class="badge" id="headerBadge">AUSTIN & EXPLORER'S MONSTER QUEST</span>
@@ -862,7 +864,7 @@ body[data-guide] .tabs {top:8px} body[data-guide] {padding-top:16px}
 
   <!-- Dynamic iPhone Touch Tabs -->
   <div class="tabs" id="mainTabs">
-    <button type="button" class="tab-btn" data-tab="vault">Ticket Vault</button>
+    
     <button type="button" class="tab-btn active" data-tab="schedule">🕒 Times</button>
     <button type="button" class="tab-btn" data-tab="maps">🗺️ Maps</button>
     <button type="button" class="tab-btn" data-tab="hunt">🔎 Hunt</button>
@@ -870,7 +872,7 @@ body[data-guide] .tabs {top:8px} body[data-guide] {padding-top:16px}
     <button type="button" class="tab-btn" id="tabGame2Btn" data-tab="game2">⚡ Game 2</button>
   </div>
 
-  <section id="vault" class="section" aria-labelledby="vaultTitle"><div class="scene-vignette scene-paused" aria-hidden="true"><svg viewBox="0 0 500 170" focusable="false"><use href="#hs-grave" transform="translate(110 140)"/><g class="pumpkin-glow"><use href="#hs-pumpkin" transform="translate(170 126)"/><use href="#hs-pumpkin" transform="translate(320 126) scale(.7)"/></g><g class="spider-crawl"><use href="#comic-spider" transform="translate(395 72)"/></g></svg></div><div class="card"><h2 id="vaultTitle">Secure Ticket Vault</h2><p>Your private ticket vault remains on Netlify. This guide does not collect passwords or load ticket files.</p><p><a class="map-btn" id="externalVaultLink" href="https://graceful-baklava-0a6e86.netlify.app/rin.html" target="_blank" rel="noopener noreferrer">Open Secure Ticket Vault ↗</a></p><p>On the Netlify page, choose Ticket Vault and sign in with your existing approved account. Your account determines which tickets you may access; this guide page does not grant access.</p><p>The Netlify guide itinerary is older; use this page for the revised trip plan.</p></div></section>
+  <div class="scene-vignette scene-paused" aria-hidden="true"><svg viewBox="0 0 500 170" focusable="false"><use href="#hs-grave" transform="translate(110 140)"/><g class="pumpkin-glow"><use href="#hs-pumpkin" transform="translate(170 126)"/><use href="#hs-pumpkin" transform="translate(320 126) scale(.7)"/></g><g class="spider-crawl"><use href="#comic-spider" transform="translate(395 72)"/></g></svg></div>
 
   <!-- TAB 1: SCHEDULE -->
   <div id="schedule" class="section active"><details class="card packing-card" id="overnightPacking">
@@ -1281,6 +1283,7 @@ body[data-guide] .tabs {top:8px} body[data-guide] {padding-top:16px}
     document.getElementById('egg-closed').style.display = 'block';
     currentMember = member;
     document.body.setAttribute('data-member', member);
+    if (member !== 'austin' && document.getElementById('vault')?.classList.contains('active')) openTab('schedule');
     const prof = PROFILES[member];
 
     document.querySelectorAll('.fam-btn').forEach(b => {
@@ -1340,6 +1343,7 @@ body[data-guide] .tabs {top:8px} body[data-guide] {padding-top:16px}
   }
 
   function openTab(tabName) {
+    if (tabName === 'vault' && currentMember !== 'austin') tabName = 'schedule';
     document.querySelectorAll('.tab-btn').forEach(b => {
       b.classList.toggle('active', b.getAttribute('data-tab') === tabName);
     });
